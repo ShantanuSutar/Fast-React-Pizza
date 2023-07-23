@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home.jsx";
-import Menu from "./features/menu/Menu.jsx";
+import Menu, { loader as MenuLoader } from "./features/menu/Menu.jsx";
 import Cart from "./features/cart/Cart.jsx";
 import CreateOrder from "./features/order/CreateOrder";
 import Order from "./features/order/Order.jsx";
@@ -11,12 +11,13 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        path: "/", // The path is relative to the parent route
+        element: <Home />, // The element to render when the path matches
       },
       {
         path: "/menu",
         element: <Menu />,
+        loader: MenuLoader, // The loader to call when the path matches
       },
       {
         path: "/cart",
