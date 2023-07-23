@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home.jsx";
+import Error from "./ui/Error.jsx";
 import Menu, { loader as MenuLoader } from "./features/menu/Menu.jsx";
 import Cart from "./features/cart/Cart.jsx";
 import CreateOrder from "./features/order/CreateOrder";
@@ -8,7 +9,8 @@ import AppLayout from "./ui/AppLayout.jsx";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: <AppLayout />, // AppLayout is the root component of our app.
+    errorElement: <Error />, // The element to render when an error occurs
     children: [
       {
         path: "/", // The path is relative to the parent route
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
         path: "/menu",
         element: <Menu />,
         loader: MenuLoader, // The loader to call when the path matches
+        errorElement: <Error />, // The element to render (instead of the Menu component) when an error occurs
       },
       {
         path: "/cart",
