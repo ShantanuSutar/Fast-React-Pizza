@@ -4,7 +4,7 @@ import MenuItem from "./MenuItem";
 
 function Menu() {
   const menu = useLoaderData(); // useLoaderData() is a React Router hook that returns the data returned by the loader() function.
-  console.log(menu);
+
   return (
     <ul>
       {menu.map((pizza) => (
