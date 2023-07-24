@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, redirect } from "react-router-dom";
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
@@ -33,8 +33,12 @@ const fakeCart = [
 ];
 
 function CreateOrder() {
+  const navigation = useNavigation(); // useNavigation() hook returns the current navigation state of the router.
+
+  const isSubmitting = navigation.state === "submitting"; // navigation.state is a string that can be "idle", "submitting", or "error".
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
+  const formErrors = useActionData();
 
   return (
     <div>
@@ -51,6 +55,9 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+
+          {formErrors?.phone && <p>{formErrors.phone}</p>}
+          {/* formErrors is an object that contains the errors returned by the action function. */}
         </div>
 
         <div>
@@ -74,7 +81,9 @@ function CreateOrder() {
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           {/* JSON.stringify() converts a JavaScript object or value to a JSON string */}
-          <button>Order now</button>
+          <button disabled={isSubmitting}>
+            {isSubmitting ? "Placing Order..." : "Order now"}
+          </button>
         </div>
       </Form>
     </div>
@@ -91,6 +100,14 @@ export async function action({ request }) {
     priority: data.priority === "on",
   };
 
+  const errors = {}; // We create an empty object to store the errors.
+  if (!isValidPhone(order.phone)) {
+    errors.phone =
+      "Please give us your correct phone number. We might need it to contact you about your order.";
+  } // We add an error to the errors object if the phone number is invalid.
+  if (Object.keys(errors).length > 0) return errors; // If there are errors, we return them to the user.
+
+  //If there are no errors, we create the order and redirect the user to the order page.
   const newOrder = await createOrder(order);
 
   return redirect(`/order/${newOrder.id}`);
