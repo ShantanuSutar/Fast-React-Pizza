@@ -83,7 +83,7 @@ function CreateOrder() {
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           {/* JSON.stringify() converts a JavaScript object or value to a JSON string */}
-          <Button disabled={isSubmitting}>
+          <Button type="primary" disabled={isSubmitting}>
             {isSubmitting ? 'Placing Order...' : 'Order now'}
           </Button>
         </div>
