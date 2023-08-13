@@ -56,6 +56,8 @@ export const {
 
 export default cartSlice.reducer;
 
+export const getCart = (state) => state.cart.cart; // We get the cart from the state
+
 export const getTotalCartQuantity = (state) =>
   state.cart.cart.reduce((sum, item) => sum + item.quantity, 0); // We calculate the total quantity of the cart
 // reduce() method executes a reducer function (that you provide) on each element of the array, resulting in single output value.
