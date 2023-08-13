@@ -3,6 +3,7 @@ import Button from '../../ui/Button';
 import { formatCurrency } from '../../utils/helpers';
 import { addItem, getTotalCartQuantityId } from '../cart/cartSlice';
 import DeleteItem from '../cart/DeleteItem';
+import UpdateItemQuantity from '../cart/updateItemQuantity';
 
 function MenuItem({ pizza }) {
   const dispatch = useDispatch();
@@ -46,7 +47,15 @@ function MenuItem({ pizza }) {
             </p>
           )}
 
-          {isInCart && <DeleteItem pizzaID={id} />}
+          {isInCart && (
+            <div className=" flex items-center gap-3 sm:gap-8">
+              <UpdateItemQuantity
+                pizzaID={id}
+                currentQuantity={currentQuantity}
+              />
+              <DeleteItem pizzaID={id} />
+            </div>
+          )}
           {/* If the pizza is already in the cart, we show the DeleteItem component. Otherwise, we show the Add to Cart button. */}
           {!soldOut && !isInCart && (
             <Button type="small" onClick={handleAddToCart}>
